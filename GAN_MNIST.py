@@ -68,8 +68,8 @@ class Discriminator(nn.Module):
         return self.disc
 
 
-# hyperparameter
-n_epochs = 200
+# hyperparameters
+n_epochs = 20
 z_dim = 64
 batch_size = 64
 lr = 3e-4
@@ -78,7 +78,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 # init data
-# download = True if dataset isn't exist
+# download = True if dataset doesn't exist
 dataloader = DataLoader(
     MNIST('./datasets', download=False, transform=transforms.ToTensor()),
     batch_size=batch_size,
@@ -124,7 +124,7 @@ for epoch in range(n_epochs):
         loss_gen.backward()
         gen_opt.step()
 
-        if batch_idx == 0:
+        if batch_idx %100 == 0:
             print(f"\nEpoch [{epoch}/{n_epochs}] Batch {batch_idx}/{len(dataloader)} \
                         Loss disc: {loss_disc:.4f}, Loss gen: {loss_gen:.4f}")
 
