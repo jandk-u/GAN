@@ -11,10 +11,10 @@ from torchvision import transforms
 from tqdm import tqdm
 
 
-class Cridic(nn.Module):
+class Critic(nn.Module):
     def __init__(self, img_channels, features_d):
-        super(Cridic, self).__init__()
-        self.cridic = nn.Sequential(
+        super(Critic, self).__init__()
+        self.critic = nn.Sequential(
             nn.Conv2d(img_channels, features_d, kernel_size=4, stride=2, padding=1),
             nn.LeakyReLU(0.2),
             self._block(features_d, features_d*2, 4, 2, 1),
@@ -31,7 +31,7 @@ class Cridic(nn.Module):
         )
 
     def forward(self, img):
-        return self.cridic(img)
+        return self.critic(img)
 
 
 class Generator(nn.Module):
@@ -90,7 +90,7 @@ datasets = datasets.ImageFolder(root="datasets/celeb_dataset", transform=transfo
 loader = DataLoader(datasets, batch_size=BATCH_SIZE, shuffle=True)
 
 gen = Generator(Z_DIM, CHANNELS_IMG, FEATURES_GEN).to(device)
-critic = Cridic(CHANNELS_IMG, FEATURES_CRITIC).to(device)
+critic = Critic(CHANNELS_IMG, FEATURES_CRITIC).to(device)
 initialize_weights(gen)
 initialize_weights(critic)
 
